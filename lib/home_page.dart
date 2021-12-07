@@ -1,9 +1,12 @@
 import 'dart:ui';
 
 import 'package:bmi_calculator/calculator_page.dart';
+import 'package:bmi_calculator/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'calculator_page.dart';
+import 'calc_func.dart';
+import 'extracted_widgets.dart';
 
 const bottomContainerHeight = 70.0;
 const activeCardColor = Color(0xFF1D1E33);
@@ -81,10 +84,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       'HEIGHT',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: Color(0xFF8D8E98),
-                      ),
+                      style: kLabelTextStyle,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -93,17 +93,11 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Text(
                           height.toString(),
-                          style: TextStyle(
-                            fontSize: 50.0,
-                            fontWeight: FontWeight.w900,
-                          ),
+                          style: kNumberTextStyle,
                         ),
                         Text(
                           'cm',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Color(0xFF8D8E98),
-                          ),
+                          style: kLabelTextStyle,
                         ),
                       ],
                     ),
@@ -142,17 +136,11 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Text(
                             'WEIGHT',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Color(0xFF8D8E98),
-                            ),
+                            style: kLabelTextStyle,
                           ),
                           Text(
                             weight.toString(),
-                            style: TextStyle(
-                              fontSize: 50.0,
-                              fontWeight: FontWeight.w900,
-                            ),
+                            style: kNumberTextStyle,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -190,17 +178,11 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Text(
                             'AGE',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Color(0xFF8D8E98),
-                            ),
+                            style: kLabelTextStyle,
                           ),
                           Text(
                             age.toString(),
-                            style: TextStyle(
-                              fontSize: 50.0,
-                              fontWeight: FontWeight.w900,
-                            ),
+                            style: kNumberTextStyle,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -236,10 +218,17 @@ class _HomePageState extends State<HomePage> {
             BottomButton(
               buttonTitle: 'CALCULATE',
               onTap: (){
+                Calculator calc = Calculator(height: height,weight: weight);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CalcPage()));
+                        builder: (context) => CalcPage(
+                          bmiResult: calc.calculateBMI(),
+                          resultText: calc.getResult(),
+                          message: calc.getMessage(),
+
+
+                        )));
               },
 
             ),
@@ -249,102 +238,3 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class Card1 extends StatelessWidget {
-  Card1({this.cardChild, this.onTap, this.colour});
-  final Widget cardChild;
-  final Function onTap;
-  final Color colour;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        child: cardChild,
-        margin: EdgeInsets.all(15.0),
-        decoration: BoxDecoration(
-          color: colour,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-      ),
-    );
-  }
-}
-
-class FontIcons extends StatelessWidget {
-  FontIcons({this.icon, this.label});
-  final IconData icon;
-  final String label;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          icon,
-          size: 80.0,
-        ),
-        SizedBox(
-          height: 15.0,
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 18.0,
-            color: Color(0xFF8D8E98),
-          ),
-        ),
-
-      ],
-    );
-  }
-}
-
-class PlusMinusButtons extends StatelessWidget {
-  PlusMinusButtons({@required this.icon, @required this.onPress});
-  final IconData icon;
-  final Function onPress;
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      onPressed: onPress,
-      child: Icon(icon),
-      constraints: BoxConstraints.tightFor(
-        width: 52.0,
-        height: 52.0,
-      ),
-      elevation: 0.0,
-      shape: CircleBorder(),
-      fillColor: Color(0xFF4C4F5E),
-    );
-  }
-}
-
-class BottomButton extends StatelessWidget {
-  BottomButton({this.buttonTitle,this.onTap});
-  final Function onTap;
-  final String buttonTitle;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.only(top: 10.0),
-        width: double.infinity,
-        height: bottomContainerHeight,
-        color: bottomContainerColor,
-        child: Center(
-          child: Text(
-            buttonTitle,
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

@@ -1,7 +1,15 @@
+import 'package:bmi_calculator/constants.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
+import 'extracted_widgets.dart';
 
 class CalcPage extends StatelessWidget {
+  CalcPage({this.bmiResult,this.resultText,this.message});
+
+
+  final String bmiResult;
+  final String resultText;
+  final String message;
 
 
   @override
@@ -20,10 +28,7 @@ class CalcPage extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               child: Text(
                 'Your Result',
-                style: TextStyle(
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: kTitleTextStyle,
               ),
             ),
           ),
@@ -36,26 +41,17 @@ class CalcPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Result',
-                    style: TextStyle(
-                      color: Color(0xFF24D876),
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    resultText.toUpperCase(),
+                    style: kResultTextStyle,
                   ),
                   Text(
-                    'Your Score',
-                    style: TextStyle(
-                      fontSize: 100.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    bmiResult,
+                    style: kBMITextStyle,
                   ),
                   Text(
-                    'Damn you re fat',
+                    message,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 22.0,
-                    ),
+                    style: kBodyTextStyle,
                   ),
                 ],
               ),
